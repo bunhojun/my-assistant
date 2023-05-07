@@ -1,15 +1,7 @@
 from chat_assistant import ChatAssistant
 from text_to_speech_player import TextToSpeechPlayer
 from speech_listener import SpeechListener
-
-
-def is_keyword(text: str):
-    return 'OK' in text and ('ブンブン' in text or 'ぶんぶん' in text)
-
-
-def trim_keyword(text: str):
-    return text.replace('OK', '').replace('ブンブン', '').replace('ぶんぶん', '')
-
+from utils import is_keyword
 
 initial_duration = 4
 
