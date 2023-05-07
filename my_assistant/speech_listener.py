@@ -31,5 +31,5 @@ class SpeechListener:
             ),
         )
 
-    def record(self, duration):
+    def listen(self, duration):
         sd.sleep(duration * 1000)

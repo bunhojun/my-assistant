@@ -32,7 +32,7 @@ def main():
     with sl.use_stream(callback):
         print("Listening...")
         while True:
-            sl.record(chunk_duration)
+            sl.listen(chunk_duration)
 
 
 if __name__ == "__main__":
