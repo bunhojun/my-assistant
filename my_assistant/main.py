@@ -2,6 +2,9 @@ from chat_assistant import ChatAssistant
 from text_to_speech_player import TextToSpeechPlayer
 from speech_listener import SpeechListener
 from utils import is_keyword
+from dotenv import load_dotenv
+
+load_dotenv()
 
 initial_duration = 4
 
