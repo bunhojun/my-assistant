@@ -15,7 +15,6 @@ def listen_for_audio(
         str: The recognized speech from the audio
     """
     try:
-        print('check point ', listen_seconds)
         with sr.Microphone() as audio_source:
             r.adjust_for_ambient_noise(audio_source, duration=0.2)
             audio2 = r.listen(
@@ -25,7 +24,7 @@ def listen_for_audio(
             text = r.recognize_google(
                 audio2,
                 language=language,
-            ).lower()
+            )
             return text
 
     except sr.RequestError as e:
