@@ -1,4 +1,7 @@
+from dotenv import load_dotenv
 from ..chat_assistant import ChatAssistant
+
+load_dotenv()
 
 
 def test_chat_assistant():
