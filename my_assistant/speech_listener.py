@@ -1,35 +1,36 @@
-import sounddevice as sd
+import sounddevice
 import speech_recognition as sr
-import numpy as np
+
+# Due to an installation issue with pyaudio, use sounddevice instead
+sounddevice
+r = sr.Recognizer()
 
 
-class SpeechListener:
-    def __init__(self, sample_rate=16000, chunk_duration=8):
-        self.sample_rate = sample_rate
-        self.chunk_duration = chunk_duration
-        self.chunk_samples = chunk_duration * sample_rate
-        self.r = sr.Recognizer()
+def listen_for_audio(
+        listen_seconds: int = 10,
+        language: str = 'ja-JP') -> str | None:
+    """Listens for audio from the microphone
 
-    def on_record(self, in_data, callback):
-        audio_data = np.frombuffer(in_data, dtype=np.int16)
-        source = sr.AudioData(audio_data.tobytes(), self.sample_rate, 2)
-        try:
-            text: str = self.r.recognize_google(source, language='ja-JP')
-            callback(text)
-        except sr.UnknownValueError:
-            pass
+    Returns:
+        str: The recognized speech from the audio
+    """
+    try:
+        print('check point ', listen_seconds)
+        with sr.Microphone() as audio_source:
+            r.adjust_for_ambient_noise(audio_source, duration=0.2)
+            audio2 = r.listen(
+                audio_source, timeout=3,
+                phrase_time_limit=listen_seconds,
+            )
+            text = r.recognize_google(
+                audio2,
+                language=language,
+            ).lower()
+            return text
 
-    def use_stream(self, callback):
-        return sd.InputStream(
-            samplerate=self.sample_rate,
-            channels=1,
-            dtype=np.int16,
-            blocksize=self.chunk_samples,
-            callback=lambda in_data, _a, _b, _c: self.on_record(
-                in_data,
-                callback,
-            ),
-        )
-
-    def listen(self, duration):
-        sd.sleep(duration * 1000)
+    except sr.RequestError as e:
+        print("Could not request results; {0}".format(e))
+    except sr.UnknownValueError:
+        print("unknown error occurred")
+    except sr.WaitTimeoutError:
+        print("No voice detected")
