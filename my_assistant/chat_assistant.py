@@ -11,16 +11,15 @@ from langchain import LLMChain
 
 class ChatAssistant:
     def __init__(self):
-        self.prompt = ChatPromptTemplate.from_messages([
-            SystemMessagePromptTemplate.from_template(
-                "あなたの名前はブンブンです。あなたは返事を100字以内で返します。"
-            ),
-            MessagesPlaceholder(variable_name="history"),
-            HumanMessagePromptTemplate.from_template("{input}")
-        ])
         self.chain = LLMChain(
             llm=ChatOpenAI(),
-            prompt=self.prompt,
+            prompt=ChatPromptTemplate.from_messages([
+                SystemMessagePromptTemplate.from_template(
+                    "あなたの名前はブンブンです。あなたは返事を100字以内で返します。"
+                ),
+                MessagesPlaceholder(variable_name="history"),
+                HumanMessagePromptTemplate.from_template("{input}")
+            ]),
             memory=ConversationBufferMemory(return_messages=True),
         )
 
