@@ -14,7 +14,7 @@ def main():
 
     print("Listening...")
     while True:
-        text = listen_for_audio(listen_seconds=10)
+        text = listen_for_audio(listen_seconds=9)
         if text and is_keyword(text):
             print('keyword detected')
             ttsp.play_text('はい')
